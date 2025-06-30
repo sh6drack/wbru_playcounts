@@ -21,7 +21,7 @@ for row in data.iterrows():
     else:
         playcounts.append("")
 
-df = pd.DataFrame(playcounts)
-df.to_excel("data.xlsx", header=None)#,\ columns=["Playcounts"])
+data['Playcounts'] = playcounts
+data.to_excel("data.xlsx", header=None, index=False)
 
 driver.quit()

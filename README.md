@@ -1,3 +1,7 @@
+## WBRU 360 UPDATES:
+now instead of overwriting column, creates a new column showcasing playcounts.
+
+
 # wbru_playcounts
 
 A tool used to automatically get the playcount numbers for a set of songs from Spotify. Used by the Indie team at [WBRU](https://www.wbru.com/) to decide which tracks will get added to the internet radio stream. WBRU is the Brown University affiliated radio station.
