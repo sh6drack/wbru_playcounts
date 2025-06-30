@@ -1,5 +1,8 @@
-## WBRU 360 UPDATES:
-now instead of overwriting column, creates a new column showcasing playcounts.
+P## WBRU 360 UPDATES:
+now instead of overwriting column, creates a new column showcasing playcounts. also we have a column for song name and artist
+
+seperated functions into count_looper_chart which takes in a xlsx file
+and count_looper.py which takes in a list of spotify urls and outputs a chart of the song, artist, url, and playcount
 
 
 # wbru_playcounts
