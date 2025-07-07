@@ -1,10 +1,16 @@
 P## WBRU 360 UPDATES:
 now instead of overwriting column, creates a new column showcasing playcounts. also we have a column for song name and artist
 
-seperated functions into count_looper_chart which takes in a xlsx file
-and count_looper.py which takes in a list of spotify urls and outputs a chart of the song, artist, url, and playcount
+**Code Organization:**
+- `count_looper_chart.py` - processes xlsx files with track URLs
+- `count_looper.py` - original implementation with all functions
+- `playlist_processor.py` - **NEW** simplified interface for playlist processing
+- `spotify_utils.py` - utility functions for Spotify API interactions
+- `playcount_scraper.py` - web scraping functions for playcount data
 
-**NEW**: Added playlist processing functionality - you can now pass a Spotify playlist URL to automatically extract all tracks and generate playcounts for the entire playlist using the `process_playlist_to_chart()` function
+**NEW Playlist Processing:**
+- `process_playlist_to_chart()` - extracts all tracks from a playlist and generates playcounts
+- `process_playlist_to_links()` - extracts just the track links from a playlist (faster, no playcounts)
 
 
 # wbru_playcounts
@@ -33,11 +39,18 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 ### Option 2: Process entire Spotify playlist (new method)
 1. Get the Spotify playlist URL you want to process
 
-2. Modify the `playlist_url` variable in the example section of `count_looper.py` or call the `process_playlist_to_chart()` function directly
+2. **Quick method (recommended):** Use the new `playlist_processor.py`
+   ```bash
+   python playlist_processor.py
+   ```
+   - Modify the `playlist_url` variable in the script first
+   - **For link extraction only:** Uncomment the links section (fast, no playcounts)
+   - **For full processing:** Uncomment the playcounts section (slow, includes playcounts)
 
-3. Run `python count_looper.py` - this will automatically extract all tracks from the playlist and generate playcounts
-
-4. Results will be saved to `spotify_playcounts.xlsx` with columns for Song, Artist, URL, and Playcounts (millions)
+3. **Alternative:** Use the original `count_looper.py`
+   - Modify the `playlist_url` variable in the example section
+   - Run `python count_looper.py`
+   - Results saved to respective Excel files
 
 
 <br>
