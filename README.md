@@ -21,11 +21,11 @@ Now instead of overwriting columns, creates new columns showcasing playcounts. A
 ## Available Functions:
 
 **For Processing Individual Tracks:**
-- `get_playcounts(urls)` - takes list of Spotify track URLs, returns DataFrame with song names, artists, URLs, and playcounts in millions
+- `get_playcounts(urls)` - takes list of Spotify track URLs, returns chart with song names, artists, URLs, and playcounts in millions
 
 **For Processing Playlists:**
-- `process_playlist_to_chart(playlist_url)` - **SLOW** - takes playlist URL, extracts all tracks, scrapes playcounts, returns complete DataFrame with song/artist/URL/playcounts
-- `process_playlist_to_links(playlist_url)` - **FAST** - takes playlist URL, extracts track info using Spotify API only, returns DataFrame with song/artist/URL (no playcounts)
+- `process_playlist_to_chart(playlist_url)` - **SLOW** - takes playlist URL, extracts all tracks, scrapes playcounts, returns complete chart with song/artist/URL/playcounts
+- `process_playlist_to_links(playlist_url)` - **FAST** - takes playlist URL, extracts track info using Spotify API only, returns chart with song/artist/URL (no playcounts)
 
 
 # wbru_playcounts
