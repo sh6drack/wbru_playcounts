@@ -32,8 +32,13 @@ if __name__ == "__main__":
     print("=== Option 1: Extract playlist links only (fast) ===")
     df_links = process_playlist_to_links(playlist_url)
     print(df_links.head())
-    df_links.to_excel("playlist_links.xlsx", index=False)
-    print("Playlist links saved to playlist_links.xlsx")
+    
+    # Ensure logs folder exists and save there
+    import os
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+    df_links.to_excel("logs/playlist_links.xlsx", index=False)
+    print("Playlist links saved to logs/playlist_links.xlsx")
     
     print("\n=== Option 2: Extract playlist with playcounts (slow) ===")
     print("Note: This will take several minutes as it scrapes playcount data")
@@ -41,5 +46,5 @@ if __name__ == "__main__":
     # Uncomment the lines below to process playcounts
     # df_chart = process_playlist_to_chart(playlist_url)
     # print(df_chart.head())
-    # df_chart.to_excel("playlist_with_playcounts.xlsx", index=False)
-    # print("Playlist with playcounts saved to playlist_with_playcounts.xlsx")
+    # df_chart.to_excel("logs/playlist_with_playcounts.xlsx", index=False)
+    # print("Playlist with playcounts saved to logs/playlist_with_playcounts.xlsx")

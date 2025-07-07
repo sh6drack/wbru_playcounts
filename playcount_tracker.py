@@ -3,10 +3,16 @@ import os
 from datetime import datetime
 from logging_utils import setup_logger, get_playcount_column_name
 
+def ensure_logs_folder():
+    """Ensure logs folder exists"""
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+
 class PlaycountTracker:
     """Manages tracking and updating playcounts over time"""
     
-    def __init__(self, master_file="master_playcounts.xlsx"):
+    def __init__(self, master_file="logs/master_playcounts.xlsx"):
+        ensure_logs_folder()
         self.master_file = master_file
         self.logger = setup_logger("playcount_tracker")
         
@@ -99,10 +105,12 @@ class PlaycountTracker:
         return master_df
     
     def export_current_snapshot(self, filename=None):
-        """Export current state to a dated file"""
+        """Export current state to a dated file in logs folder"""
         if not filename:
             date_str = datetime.now().strftime("%Y-%m-%d")
-            filename = f"playcounts_snapshot_{date_str}.xlsx"
+            filename = f"logs/playcounts_snapshot_{date_str}.xlsx"
+        elif not filename.startswith("logs/"):
+            filename = f"logs/{filename}"
         
         master_df = self.load_or_create_master_file()
         master_df.to_excel(filename, index=False)

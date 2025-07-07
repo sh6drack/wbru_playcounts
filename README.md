@@ -70,7 +70,7 @@ A tool used to automatically get the playcount numbers for a set of songs from S
    df = process_playlist_to_links("YOUR_PLAYLIST_URL")
    df.to_excel("playlist_links.xlsx", index=False)
    ```
-   - **Output:** Excel file with columns: Song, Artist, URL
+   - **Output:** Excel file saved to `logs/playlist_links.xlsx` with columns: Song, Artist, URL
    - **Use case:** When you need track links to paste into existing sheets
    - **Speed:** Very fast (API only, no web scraping)
 
@@ -82,7 +82,7 @@ A tool used to automatically get the playcount numbers for a set of songs from S
    df = process_playlist_to_chart("YOUR_PLAYLIST_URL")
    df.to_excel("playlist_with_playcounts.xlsx", index=False)
    ```
-   - **Output:** Excel file with columns: Song, Artist, URL, Playcounts (millions)
+   - **Output:** Excel file saved to `logs/playlist_with_playcounts.xlsx` with columns: Song, Artist, URL, Playcounts (millions)
    - **Use case:** When you need complete data including playcount numbers
    - **Speed:** Slow (requires web scraping each track)
 
@@ -97,7 +97,7 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 ```python
 from enhanced_playlist_processor import process_playlist_to_chart_with_tracking
 
-# First run creates master_playcounts.xlsx with column "Playcounts 06.07.2025"
+# First run creates logs/master_playcounts.xlsx with column "Playcounts 06.07.2025"
 master_df = process_playlist_to_chart_with_tracking("YOUR_PLAYLIST_URL")
 
 # Next week, running again adds "Playcounts 13.07.2025" column
@@ -115,9 +115,10 @@ urls_to_update = [
 update_existing_tracks(urls_to_update)
 ```
 
-**Output Files:**
-- `master_playcounts.xlsx` - main tracking file with date-based columns
-- `playcounts_snapshot_YYYY-MM-DD.xlsx` - daily snapshots
+**Output Files (all saved in `logs/` folder):**
+- `logs/master_playcounts.xlsx` - main tracking file with date-based columns
+- `logs/playcounts_snapshot_YYYY-MM-DD.xlsx` - daily snapshots
+- `logs/playlist_links_XXXXX.xlsx` - playlist link extractions
 - `logs/wbru_playcounts_YYYY-MM-DD.log` - detailed operation logs
 
 

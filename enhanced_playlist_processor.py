@@ -43,9 +43,9 @@ def process_playlist_to_chart_with_tracking(playlist_url, save_to_master=True):
     
     return chart_data
 
-def process_playlist_to_links_with_logging(playlist_url):
+def process_playlist_to_links_with_logging(playlist_url, save_file=None):
     """
-    Extract playlist links with logging
+    Extract playlist links with logging and save to logs folder
     """
     logger = setup_logger("enhanced_processor")
     logger.info(f"Extracting links from playlist: {playlist_url}")
@@ -54,6 +54,14 @@ def process_playlist_to_links_with_logging(playlist_url):
     
     if not result.empty:
         logger.info(f"Successfully extracted {len(result)} track links")
+        
+        # Save to logs folder if filename provided
+        if save_file:
+            if not save_file.startswith("logs/"):
+                save_file = f"logs/{save_file}"
+            result.to_excel(save_file, index=False)
+            logger.info(f"Saved playlist links to {save_file}")
+        
     else:
         logger.error("Failed to extract any tracks")
     
@@ -94,10 +102,9 @@ if __name__ == "__main__":
     playlist_url = "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
     
     print("=== Option 1: Extract playlist links only (fast, with logging) ===")
-    df_links = process_playlist_to_links_with_logging(playlist_url)
+    df_links = process_playlist_to_links_with_logging(playlist_url, "playlist_links_logged.xlsx")
     if not df_links.empty:
-        df_links.to_excel("playlist_links_logged.xlsx", index=False)
-        logger.info("Playlist links saved to playlist_links_logged.xlsx")
+        logger.info("Playlist links saved to logs folder")
     
     print("\n=== Option 2: Process playlist with tracking (slow) ===")
     print("Note: This will take several minutes and update the master tracking file")

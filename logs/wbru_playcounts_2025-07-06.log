@@ -1,20 +1,34 @@
-2025-07-06 22:59:32 - test - INFO - Testing logging system...
-2025-07-06 22:59:32 - test - WARNING - This is a warning message
-2025-07-06 22:59:32 - test - ERROR - This is an error message
-2025-07-06 22:59:32 - test_tracking - INFO - Testing first playcount update...
-2025-07-06 22:59:32 - playcount_tracker - INFO - Creating new master file: test_master_playcounts.xlsx
-2025-07-06 22:59:32 - playcount_tracker - INFO - Adding playcounts for 2 tracks with column: Playcounts 06.07.2025
-2025-07-06 22:59:32 - playcount_tracker - INFO - Saved updated master file with 2 tracks
-2025-07-06 22:59:33 - test_tracking - INFO - Testing second playcount update...
-2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
-2025-07-06 22:59:33 - playcount_tracker - INFO - Adding playcounts for 3 tracks with column: Playcounts 06.07.2025
-2025-07-06 22:59:33 - playcount_tracker - INFO - Updated playcount for existing track: Test Song 1
-2025-07-06 22:59:33 - playcount_tracker - INFO - Updated playcount for existing track: Test Song 2
-2025-07-06 22:59:33 - playcount_tracker - INFO - Added new track: Test Song 3
-2025-07-06 22:59:33 - playcount_tracker - INFO - Saved updated master file with 3 tracks
-2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
-2025-07-06 22:59:33 - playcount_tracker - INFO - Need at least 2 playcount measurements to calculate growth
-2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
-2025-07-06 22:59:33 - playcount_tracker - INFO - Exported snapshot to test_snapshot.xlsx
-2025-07-06 22:59:33 - enhanced_processor - INFO - Extracting links from playlist: https://open.spotify.com/playlist/1a9S07rNBB5EJq35uZ29bJ
-2025-07-06 22:59:33 - enhanced_processor - INFO - Successfully extracted 34 track links
+2025-07-06 23:09:04 - demo - INFO - Starting playlist processing demo with enhanced tracking
+2025-07-06 23:09:05 - demo - INFO - Processing first 5 tracks from playlist
+2025-07-06 23:09:05 - playcount_scraper - INFO - Starting playcount extraction for 5 tracks
+2025-07-06 23:09:05 - playcount_scraper - INFO - Using column name: Playcounts 06.07.2025
+2025-07-06 23:09:10 - playcount_scraper - INFO - Successfully processed: SOMEBODY LOVES ME by PARTYNEXTDOOR - 76.45M plays
+2025-07-06 23:09:11 - playcount_scraper - INFO - Successfully processed: 30 For 30 (with Kendrick Lamar) by SZA - 252.79M plays
+2025-07-06 23:09:12 - playcount_scraper - INFO - Successfully processed: MUTT by Leon Thomas - 213.89M plays
+2025-07-06 23:09:13 - playcount_scraper - INFO - Successfully processed: Residuals by Chris Brown - 132.69M plays
+2025-07-06 23:09:14 - playcount_scraper - INFO - Successfully processed: peekaboo (feat. azchike) by Kendrick Lamar - 227.82M plays
+2025-07-06 23:09:14 - playcount_scraper - INFO - Completed playcount extraction. Processed 5 tracks
+2025-07-06 23:09:14 - playcount_tracker - INFO - Creating new master file: master_playcounts.xlsx
+2025-07-06 23:09:14 - playcount_tracker - INFO - Adding playcounts for 5 tracks with column: Playcounts 06.07.2025
+2025-07-06 23:09:15 - playcount_tracker - INFO - Saved updated master file with 5 tracks
+2025-07-06 23:09:15 - playcount_tracker - INFO - Loading existing master file: master_playcounts.xlsx
+2025-07-06 23:09:15 - playcount_tracker - INFO - Need at least 2 playcount measurements to calculate growth
+2025-07-06 23:09:15 - playcount_tracker - INFO - Loading existing master file: master_playcounts.xlsx
+2025-07-06 23:09:15 - playcount_tracker - INFO - Exported snapshot to playcounts_snapshot_2025-07-06.xlsx
+2025-07-06 23:09:15 - demo - INFO - Demo completed successfully. Created 5 track records
+2025-07-06 23:12:09 - test_logs_folder - INFO - Testing updated system that saves everything to logs folder
+2025-07-06 23:12:09 - enhanced_processor - INFO - Extracting links from playlist: https://open.spotify.com/playlist/1a9S07rNBB5EJq35uZ29bJ?si=42ebcaf59fa6496e
+2025-07-06 23:12:09 - enhanced_processor - INFO - Successfully extracted 34 track links
+2025-07-06 23:12:09 - enhanced_processor - INFO - Saved playlist links to logs/playlist_links_test.xlsx
+2025-07-06 23:12:10 - playcount_scraper - INFO - Starting playcount extraction for 3 tracks
+2025-07-06 23:12:10 - playcount_scraper - INFO - Using column name: Playcounts 06.07.2025
+2025-07-06 23:12:14 - playcount_scraper - INFO - Successfully processed: SOMEBODY LOVES ME by PARTYNEXTDOOR - 76.45M plays
+2025-07-06 23:12:17 - playcount_scraper - INFO - Successfully processed: 30 For 30 (with Kendrick Lamar) by SZA - 252.79M plays
+2025-07-06 23:12:18 - playcount_scraper - INFO - Successfully processed: MUTT by Leon Thomas - 213.89M plays
+2025-07-06 23:12:19 - playcount_scraper - INFO - Completed playcount extraction. Processed 3 tracks
+2025-07-06 23:12:19 - playcount_tracker - INFO - Creating new master file: logs/master_playcounts.xlsx
+2025-07-06 23:12:19 - playcount_tracker - INFO - Adding playcounts for 3 tracks with column: Playcounts 06.07.2025
+2025-07-06 23:12:19 - playcount_tracker - INFO - Saved updated master file with 3 tracks
+2025-07-06 23:12:19 - playcount_tracker - INFO - Loading existing master file: logs/master_playcounts.xlsx
+2025-07-06 23:12:19 - playcount_tracker - INFO - Exported snapshot to logs/playcounts_snapshot_2025-07-06.xlsx
+2025-07-06 23:12:19 - test_logs_folder - INFO - Test completed successfully - all files in logs folder
