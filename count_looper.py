@@ -10,6 +10,63 @@ def extract_track_id(url):
     match = re.search(r'/track/([a-zA-Z0-9]+)', url)
     return match.group(1) if match else None
 
+def extract_playlist_id(url):
+    """Extract playlist ID from Spotify URL"""
+    match = re.search(r'/playlist/([a-zA-Z0-9]+)', url)
+    return match.group(1) if match else None
+
+def get_playlist_tracks(playlist_url):
+    """
+    Extract all track URLs from a Spotify playlist
+    """
+    # Setup Spotify API
+    client_credentials_manager = SpotifyClientCredentials(
+        client_id="7914f288d3fa40e08faa11a2af59c3b6",
+        client_secret="b514416785af45dabb0f6bfaccdfd2cd"
+    )
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+    
+    playlist_id = extract_playlist_id(playlist_url)
+    if not playlist_id:
+        print(f"Could not extract playlist ID from: {playlist_url}")
+        return []
+    
+    try:
+        # Get playlist tracks
+        results = sp.playlist_tracks(playlist_id)
+        track_urls = []
+        
+        for item in results['items']:
+            if item['track'] and item['track']['id']:
+                track_url = f"https://open.spotify.com/track/{item['track']['id']}"
+                track_urls.append(track_url)
+        
+        # Handle pagination
+        while results['next']:
+            results = sp.next(results)
+            for item in results['items']:
+                if item['track'] and item['track']['id']:
+                    track_url = f"https://open.spotify.com/track/{item['track']['id']}"
+                    track_urls.append(track_url)
+        
+        return track_urls
+    
+    except Exception as e:
+        print(f"Error getting playlist tracks: {e}")
+        return []
+
+def process_playlist_to_chart(playlist_url):
+    """
+    Takes a Spotify playlist URL and returns a DataFrame with song names and playcounts
+    """
+    track_urls = get_playlist_tracks(playlist_url)
+    if not track_urls:
+        print("No tracks found in playlist")
+        return pd.DataFrame()
+    
+    print(f"Found {len(track_urls)} tracks in playlist")
+    return get_playcounts(track_urls)
+
 def get_playcounts(urls):
     """
     Takes a list of Spotify track URLs and returns a DataFrame with song names and playcounts
@@ -71,13 +128,18 @@ def get_playcounts(urls):
 
 # Example usage
 if __name__ == "__main__":
-    # Example URLs - replace with your list
+    # Example 1: Process individual track URLs
     urls = [
         "https://open.spotify.com/track/76RAlQcfuQknnQFruYDj6Q?si=a1052891c545434f"
     ]
     
     df = get_playcounts(urls)
     print(df)
+    
+    # Example 2: Process entire playlist
+    playlist_url = "https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"  # Example playlist URL
+    df_playlist = process_playlist_to_chart(playlist_url)
+    print(df_playlist)
     
     # Save to Excel
     df.to_excel("spotify_playcounts.xlsx", index=False)

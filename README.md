@@ -4,6 +4,8 @@ now instead of overwriting column, creates a new column showcasing playcounts. a
 seperated functions into count_looper_chart which takes in a xlsx file
 and count_looper.py which takes in a list of spotify urls and outputs a chart of the song, artist, url, and playcount
 
+**NEW**: Added playlist processing functionality - you can now pass a Spotify playlist URL to automatically extract all tracks and generate playcounts for the entire playlist using the `process_playlist_to_chart()` function
+
 
 # wbru_playcounts
 
@@ -19,6 +21,7 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 
 ## Usage:
 
+### Option 1: Process individual track URLs (existing method)
 1. Copy the column of song URLs (to the track on Spotify) from the current/recurrents sheet to the leftmost column (column A) in `data.xlsx`
 
 2. Save and close `data.xlsx`
@@ -26,6 +29,15 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 3. Run `python count_looper.py` (this may take a few minutes — if you get errors try running somewhere with faster internet connection)
 
 4. `data.xlsx` now has the corresponding playcounts for the songs. Copy this data back into the current/recurrents sheet for today's date
+
+### Option 2: Process entire Spotify playlist (new method)
+1. Get the Spotify playlist URL you want to process
+
+2. Modify the `playlist_url` variable in the example section of `count_looper.py` or call the `process_playlist_to_chart()` function directly
+
+3. Run `python count_looper.py` - this will automatically extract all tracks from the playlist and generate playcounts
+
+4. Results will be saved to `spotify_playcounts.xlsx` with columns for Song, Artist, URL, and Playcounts (millions)
 
 
 <br>
