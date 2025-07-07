@@ -1,0 +1,20 @@
+2025-07-06 22:59:32 - test - INFO - Testing logging system...
+2025-07-06 22:59:32 - test - WARNING - This is a warning message
+2025-07-06 22:59:32 - test - ERROR - This is an error message
+2025-07-06 22:59:32 - test_tracking - INFO - Testing first playcount update...
+2025-07-06 22:59:32 - playcount_tracker - INFO - Creating new master file: test_master_playcounts.xlsx
+2025-07-06 22:59:32 - playcount_tracker - INFO - Adding playcounts for 2 tracks with column: Playcounts 06.07.2025
+2025-07-06 22:59:32 - playcount_tracker - INFO - Saved updated master file with 2 tracks
+2025-07-06 22:59:33 - test_tracking - INFO - Testing second playcount update...
+2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
+2025-07-06 22:59:33 - playcount_tracker - INFO - Adding playcounts for 3 tracks with column: Playcounts 06.07.2025
+2025-07-06 22:59:33 - playcount_tracker - INFO - Updated playcount for existing track: Test Song 1
+2025-07-06 22:59:33 - playcount_tracker - INFO - Updated playcount for existing track: Test Song 2
+2025-07-06 22:59:33 - playcount_tracker - INFO - Added new track: Test Song 3
+2025-07-06 22:59:33 - playcount_tracker - INFO - Saved updated master file with 3 tracks
+2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
+2025-07-06 22:59:33 - playcount_tracker - INFO - Need at least 2 playcount measurements to calculate growth
+2025-07-06 22:59:33 - playcount_tracker - INFO - Loading existing master file: test_master_playcounts.xlsx
+2025-07-06 22:59:33 - playcount_tracker - INFO - Exported snapshot to test_snapshot.xlsx
+2025-07-06 22:59:33 - enhanced_processor - INFO - Extracting links from playlist: https://open.spotify.com/playlist/1a9S07rNBB5EJq35uZ29bJ
+2025-07-06 22:59:33 - enhanced_processor - INFO - Successfully extracted 34 track links

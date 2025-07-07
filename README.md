@@ -17,6 +17,9 @@ Now instead of overwriting columns, creates new columns showcasing playcounts. A
 **Utility Modules:**
 - `spotify_utils.py` - Spotify API functions (authentication, track/playlist extraction)
 - `playcount_scraper.py` - web scraping functions to get playcount data from Spotify
+- `logging_utils.py` - **NEW** logging system that creates logs in `logs/` folder
+- `playcount_tracker.py` - **NEW** tracks playcounts over time with date-based columns
+- `enhanced_playlist_processor.py` - **NEW** full-featured processor with logging and tracking
 
 ## Available Functions:
 
@@ -26,6 +29,12 @@ Now instead of overwriting columns, creates new columns showcasing playcounts. A
 **For Processing Playlists:**
 - `process_playlist_to_chart(playlist_url)` - **SLOW** - takes playlist URL, extracts all tracks, scrapes playcounts, returns complete chart with song/artist/URL/playcounts
 - `process_playlist_to_links(playlist_url)` - **FAST** - takes playlist URL, extracts track info using Spotify API only, returns chart with song/artist/URL (no playcounts)
+
+**NEW - For Tracking Playcounts Over Time:**
+- `process_playlist_to_chart_with_tracking(playlist_url)` - processes playlist and saves to master tracking file with date-based columns
+- `update_existing_tracks(urls_list)` - updates playcounts for specific tracks in the master file
+- `PlaycountTracker.add_or_update_playcounts()` - adds new data to master file with columns like "Playcounts 06.07.2025"
+- `PlaycountTracker.calculate_growth()` - automatically calculates growth between measurement dates
 
 
 # wbru_playcounts
@@ -81,6 +90,35 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 1. Modify the `playlist_url` variable in `playlist_processor.py`
 2. Run `python playlist_processor.py`
 3. Uncomment the section you want (links only vs full processing)
+
+### Option 3: Track Playcounts Over Time (NEW)
+
+**For Weekly/Regular Updates:**
+```python
+from enhanced_playlist_processor import process_playlist_to_chart_with_tracking
+
+# First run creates master_playcounts.xlsx with column "Playcounts 06.07.2025"
+master_df = process_playlist_to_chart_with_tracking("YOUR_PLAYLIST_URL")
+
+# Next week, running again adds "Playcounts 13.07.2025" column
+# and calculates growth automatically
+```
+
+**For Updating Specific Tracks:**
+```python
+from enhanced_playlist_processor import update_existing_tracks
+
+urls_to_update = [
+    "https://open.spotify.com/track/76RAlQcfuQknnQFruYDj6Q",
+    "https://open.spotify.com/track/3aSWXU6owkZeVhh94XxEWO"
+]
+update_existing_tracks(urls_to_update)
+```
+
+**Output Files:**
+- `master_playcounts.xlsx` - main tracking file with date-based columns
+- `playcounts_snapshot_YYYY-MM-DD.xlsx` - daily snapshots
+- `logs/wbru_playcounts_YYYY-MM-DD.log` - detailed operation logs
 
 
 <br>

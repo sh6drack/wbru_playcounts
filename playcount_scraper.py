@@ -2,12 +2,18 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from spotify_utils import get_spotify_client, extract_track_id
+from logging_utils import setup_logger, get_playcount_column_name
 
 def get_playcounts(urls):
     """
     Takes a list of Spotify track URLs and returns a DataFrame with song names and playcounts
     """
+    logger = setup_logger("playcount_scraper")
     sp = get_spotify_client()
+    playcount_column = get_playcount_column_name()
+    
+    logger.info(f"Starting playcount extraction for {len(urls)} tracks")
+    logger.info(f"Using column name: {playcount_column}")
     
     # Setup Selenium
     options = webdriver.ChromeOptions()
@@ -40,9 +46,10 @@ def get_playcounts(urls):
                         'URL': url,
                         'Playcounts (millions)': count_in_millions
                     })
+                    logger.info(f"Successfully processed: {song_title} by {artist_name} - {count_in_millions:.2f}M plays")
                     
                 except Exception as e:
-                    print(f"Error processing {url}: {e}")
+                    logger.error(f"Error processing {url}: {e}")
                     results.append({
                         'Song': 'Error',
                         'Artist': 'Error',
@@ -50,9 +57,10 @@ def get_playcounts(urls):
                         'Playcounts (millions)': 0
                     })
             else:
-                print(f"Could not extract track ID from: {url}")
+                logger.warning(f"Could not extract track ID from: {url}")
         else:
-            print(f"Skipping non-track URL: {url}")
+            logger.warning(f"Skipping non-track URL: {url}")
     
     driver.quit()
+    logger.info(f"Completed playcount extraction. Processed {len(results)} tracks")
     return pd.DataFrame(results)
