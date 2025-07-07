@@ -37,7 +37,7 @@ def get_playlist_tracks(playlist_url):
         track_urls = []
         
         for item in results['items']:
-            if item['track'] and item['track']['id']:
+            if item and item.get('track') and item['track'].get('id'):
                 track_url = f"https://open.spotify.com/track/{item['track']['id']}"
                 track_urls.append(track_url)
         
@@ -45,7 +45,7 @@ def get_playlist_tracks(playlist_url):
         while results['next']:
             results = sp.next(results)
             for item in results['items']:
-                if item['track'] and item['track']['id']:
+                if item and item.get('track') and item['track'].get('id'):
                     track_url = f"https://open.spotify.com/track/{item['track']['id']}"
                     track_urls.append(track_url)
         
