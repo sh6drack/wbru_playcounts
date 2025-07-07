@@ -1,16 +1,31 @@
 P## WBRU 360 UPDATES:
-now instead of overwriting column, creates a new column showcasing playcounts. also we have a column for song name and artist
+Now instead of overwriting columns, creates new columns showcasing playcounts. Also includes columns for song name and artist.
 
-**Code Organization:**
-- `count_looper_chart.py` - processes xlsx files with track URLs
-- `count_looper.py` - original implementation with all functions
+## What This Tool Does:
+
+🎵 **Individual Track Processing:** Give it Spotify track URLs → Get back song names, artists, and playcount data  
+🎵 **Playlist Link Extraction:** Give it a Spotify playlist URL → Get back all track info (FAST, ~5 seconds)  
+🎵 **Full Playlist Processing:** Give it a Spotify playlist URL → Get back complete data with playcounts (SLOW, 5-10 minutes)
+
+## Code Organization:
+
+**Main Files:**
+- `count_looper_chart.py` - processes Excel files with track URLs and adds playcounts
+- `count_looper.py` - original monolithic implementation with all functions
 - `playlist_processor.py` - **NEW** simplified interface for playlist processing
-- `spotify_utils.py` - utility functions for Spotify API interactions
-- `playcount_scraper.py` - web scraping functions for playcount data
 
-**NEW Playlist Processing:**
-- `process_playlist_to_chart()` - extracts all tracks from a playlist and generates playcounts
-- `process_playlist_to_links()` - extracts just the track links from a playlist (faster, no playcounts)
+**Utility Modules:**
+- `spotify_utils.py` - Spotify API functions (authentication, track/playlist extraction)
+- `playcount_scraper.py` - web scraping functions to get playcount data from Spotify
+
+## Available Functions:
+
+**For Processing Individual Tracks:**
+- `get_playcounts(urls)` - takes list of Spotify track URLs, returns DataFrame with song names, artists, URLs, and playcounts in millions
+
+**For Processing Playlists:**
+- `process_playlist_to_chart(playlist_url)` - **SLOW** - takes playlist URL, extracts all tracks, scrapes playcounts, returns complete DataFrame with song/artist/URL/playcounts
+- `process_playlist_to_links(playlist_url)` - **FAST** - takes playlist URL, extracts track info using Spotify API only, returns DataFrame with song/artist/URL (no playcounts)
 
 
 # wbru_playcounts
@@ -36,21 +51,36 @@ A tool used to automatically get the playcount numbers for a set of songs from S
 
 4. `data.xlsx` now has the corresponding playcounts for the songs. Copy this data back into the current/recurrents sheet for today's date
 
-### Option 2: Process entire Spotify playlist (new method)
+### Option 2: Process entire Spotify playlist
+
+**Method A: Quick Link Extraction (RECOMMENDED - takes ~5 seconds)**
 1. Get the Spotify playlist URL you want to process
-
-2. **Quick method (recommended):** Use the new `playlist_processor.py`
-   ```bash
-   python playlist_processor.py
+2. Run:
+   ```python
+   from playlist_processor import process_playlist_to_links
+   df = process_playlist_to_links("YOUR_PLAYLIST_URL")
+   df.to_excel("playlist_links.xlsx", index=False)
    ```
-   - Modify the `playlist_url` variable in the script first
-   - **For link extraction only:** Uncomment the links section (fast, no playcounts)
-   - **For full processing:** Uncomment the playcounts section (slow, includes playcounts)
+   - **Output:** Excel file with columns: Song, Artist, URL
+   - **Use case:** When you need track links to paste into existing sheets
+   - **Speed:** Very fast (API only, no web scraping)
 
-3. **Alternative:** Use the original `count_looper.py`
-   - Modify the `playlist_url` variable in the example section
-   - Run `python count_looper.py`
-   - Results saved to respective Excel files
+**Method B: Full Processing with Playcounts (SLOW - takes 5-10 minutes)**
+1. Get the Spotify playlist URL you want to process
+2. Run:
+   ```python
+   from playlist_processor import process_playlist_to_chart
+   df = process_playlist_to_chart("YOUR_PLAYLIST_URL")
+   df.to_excel("playlist_with_playcounts.xlsx", index=False)
+   ```
+   - **Output:** Excel file with columns: Song, Artist, URL, Playcounts (millions)
+   - **Use case:** When you need complete data including playcount numbers
+   - **Speed:** Slow (requires web scraping each track)
+
+**Method C: Using the standalone script**
+1. Modify the `playlist_url` variable in `playlist_processor.py`
+2. Run `python playlist_processor.py`
+3. Uncomment the section you want (links only vs full processing)
 
 
 <br>
