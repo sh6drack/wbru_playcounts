@@ -1,4 +1,4 @@
-pandas
-selenium
-spotipy
-openpyxl
+pandas==2.3.0
+selenium==4.34.0
+spotipy==2.25.1
+openpyxl==3.1.5

@@ -58,13 +58,13 @@ def get_playlist_tracks(playlist_url):
         return []
 
 def get_playlist_info_with_tracks(playlist_url):
-    """Get playlist info along with track metadata (no playcounts)"""
+    """Get playlist name and track data"""
     sp = get_spotify_client()
     
     playlist_id = extract_playlist_id(playlist_url)
     if not playlist_id:
         print(f"Could not extract playlist ID from: {playlist_url}")
-        return pd.DataFrame()
+        return pd.DataFrame(), ""
     
     try:
         # Get playlist info
@@ -106,8 +106,8 @@ def get_playlist_info_with_tracks(playlist_url):
         
         df = pd.DataFrame(track_data)
         print(f"Extracted {len(df)} tracks from playlist: {playlist_name}")
-        return df
+        return df, playlist_name
         
     except Exception as e:
         print(f"Error processing playlist: {e}")
-        return pd.DataFrame()
+        return pd.DataFrame(), ""

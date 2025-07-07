@@ -7,36 +7,30 @@ from playcount_scraper import get_playcounts
 from playcount_tracker import PlaycountTracker
 from logging_utils import setup_logger
 
-def process_playlist_to_chart_with_tracking(playlist_url, save_to_master=True):
-    """
-    Process a playlist and optionally save to the master tracking file
-    """
+def process_playlist_to_chart_with_tracking(playlist_url):
+    """Process playlist and add to master tracking file"""
     logger = setup_logger("enhanced_processor")
     tracker = PlaycountTracker()
     
-    logger.info(f"Starting playlist processing: {playlist_url}")
-    
-    # Get track URLs from playlist
-    track_urls = get_playlist_tracks(playlist_url)
-    if not track_urls:
+    # Get playlist name and tracks
+    df_links, playlist_name = get_playlist_info_with_tracks(playlist_url)
+    if df_links.empty:
         logger.error("No tracks found in playlist")
         return pd.DataFrame()
     
-    logger.info(f"Found {len(track_urls)} tracks in playlist")
+    # Get track URLs
+    track_urls = df_links['URL'].tolist()
     
     # Get playcounts for all tracks
     chart_data = get_playcounts(track_urls)
     
-    if save_to_master and not chart_data.empty:
+    if not chart_data.empty:
         # Add to master tracking file
-        logger.info("Adding data to master tracking file...")
         master_df = tracker.add_or_update_playcounts(chart_data)
-        
-        # Calculate growth if we have multiple measurements
         master_df = tracker.calculate_growth()
         
-        # Export snapshot
-        snapshot_file = tracker.export_current_snapshot()
+        # Export snapshot with playlist name
+        snapshot_file = tracker.export_playlist_snapshot(playlist_name)
         logger.info(f"Created snapshot: {snapshot_file}")
         
         return master_df
@@ -44,17 +38,12 @@ def process_playlist_to_chart_with_tracking(playlist_url, save_to_master=True):
     return chart_data
 
 def process_playlist_to_links_with_logging(playlist_url, save_file=None):
-    """
-    Extract playlist links with logging and save to logs folder
-    """
+    """Extract playlist links and save to logs folder"""
     logger = setup_logger("enhanced_processor")
-    logger.info(f"Extracting links from playlist: {playlist_url}")
     
-    result = get_playlist_info_with_tracks(playlist_url)
+    result, playlist_name = get_playlist_info_with_tracks(playlist_url)
     
     if not result.empty:
-        logger.info(f"Successfully extracted {len(result)} track links")
-        
         # Save to logs folder if filename provided
         if save_file:
             if not save_file.startswith("logs/"):

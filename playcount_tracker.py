@@ -104,13 +104,11 @@ class PlaycountTracker:
         
         return master_df
     
-    def export_current_snapshot(self, filename=None):
-        """Export current state to a dated file in logs folder"""
-        if not filename:
-            date_str = datetime.now().strftime("%Y-%m-%d")
-            filename = f"logs/playcounts_snapshot_{date_str}.xlsx"
-        elif not filename.startswith("logs/"):
-            filename = f"logs/{filename}"
+    def export_playlist_snapshot(self, playlist_name="playlist"):
+        """Export snapshot with playlist name"""
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        clean_name = playlist_name.replace(" ", "_").replace("/", "-")[:30]
+        filename = f"logs/{clean_name}_{date_str}.xlsx"
         
         master_df = self.load_or_create_master_file()
         master_df.to_excel(filename, index=False)
