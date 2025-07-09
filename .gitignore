@@ -1,11 +1,17 @@
 .DS_Store
-__pycache__
+__pycache__/
 ~$*
 
-.claude
+.claude/
 
-.venv
+.venv/
 
 .envrc
 
-.cache
+.cache/
+
+logs/
+legacy/
+
+# Track the template file
+!data.xlsx

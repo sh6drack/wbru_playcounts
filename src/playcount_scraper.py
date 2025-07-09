@@ -1,8 +1,8 @@
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from spotify_utils import get_spotify_client, extract_track_id
-from logging_utils import setup_logger, get_playcount_column_name
+from .spotify_utils import get_spotify_client, extract_track_id
+from .logging_utils import setup_logger, get_playcount_column_name
 
 def get_playcounts(urls):
     """

@@ -1,83 +1,65 @@
 # WBRU Playlist Tracker
 
-Simple tool to track Spotify playlist playcounts over time for WBRU radio station.
+Track Spotify playlist playcounts over time.
 
 ## Setup (One Time Only)
 
-1. **Download this code:** Click the green "Code" button above → "Download ZIP" → Extract the folder
-2. **Install Chrome browser** (if you don't have it already)
-3. **Install Python packages:**
-   - Open Terminal/Command Prompt in the extracted folder
-   - Type: `pip install -r requirements.txt`
-   - Press Enter and wait for it to finish
+1. **Download this code:** Click green "Code" button → "Download ZIP" → Extract folder
+2. **Install packages:** Double-click `install_packages.command` (Mac) or `install_packages.bat` (Windows)
+3. **Ready to use:** `data.xlsx` is included - just paste your URLs in column A when needed
 
-## What It Does
+## How to Use
 
-🎵 **Track playcounts over time** - Each run adds a new date column like "Playcounts 06.07.2025"  
-🎵 **Process playlists** - Give it a Spotify playlist URL, get back all track data  
-🎵 **Calculate growth** - Automatically shows playcount changes between dates
+**For tracking playlists (Weekly, Gold Library, etc.):**
+- **Mac:** Double-click `track_playlist.command` 
+- **Windows:** Double-click `track_playlist.bat`
+- Enter playlist name like "Weekly July 2025"
+- Paste Spotify playlist URL
+- Wait 5-10 minutes for Chrome to finish
 
-## How to Get Spotify Playlist URL
+**For quick URL extraction:**
+- **Mac:** Double-click `get_urls.command`
+- **Windows:** Double-click `get_urls.bat`
+- Paste Spotify playlist URL
+- Get Excel file with URLs (5 seconds)
 
-1. Open Spotify (app or web)
-2. Go to your playlist
-3. Click the 3 dots (...) next to the playlist name
-4. Click "Share" → "Copy link to playlist"
-5. You'll get something like: `https://open.spotify.com/playlist/1a9S07rNBB5EJq35uZ29bJ`
+**For updating playcounts from Excel file:**
+- Open `data.xlsx` and paste your Spotify URLs in column A
+- **Mac:** Double-click `update_from_excel.command`
+- **Windows:** Double-click `update_from_excel.bat`
+- Wait 5-10 minutes for Chrome to finish
 
-## Quick Start
+## Common Workflows
 
-### Option 1: Get Just the Track Links (Fast - 5 seconds)
+**Weekly playlist tracking:**
+1. Use `track_playlist` with your weekly playlist URL
+2. Gets playcounts and adds new date column each week
 
-1. Get your Spotify playlist URL (see above)
-2. Open Terminal/Command Prompt in this folder
-3. Type: `python`
-4. Copy and paste this (replace YOUR_PLAYLIST_URL with your actual URL):
-```python
-from enhanced_playlist_processor import process_playlist_to_links_with_logging
-process_playlist_to_links_with_logging("YOUR_PLAYLIST_URL", "my_playlist.xlsx")
-```
-5. Press Enter and wait (you'll see "Extracted X tracks" message)
-6. Find your file in the `logs/` folder
+**Gold library quarterly updates:**
+1. Use `get_urls` to extract URLs from your gold library playlist
+2. Copy URLs from the output file to `data.xlsx` (column A)
+3. Use `update_from_excel` to get playcounts for all songs
 
-### Option 2: Track Playcounts Weekly (Slow - 5-10 minutes)
+**Quick song lookup:**
+1. Open `data.xlsx` and paste URLs in column A
+2. Use `update_from_excel` to get playcounts
 
-1. Get your Spotify playlist URL (see above)
-2. Open Terminal/Command Prompt in this folder
-3. Type: `python`
-4. Copy and paste this (replace YOUR_PLAYLIST_URL with your actual URL):
-```python
-from enhanced_playlist_processor import process_playlist_to_chart_with_tracking
-process_playlist_to_chart_with_tracking("YOUR_PLAYLIST_URL")
-```
-5. Press Enter and wait (Chrome browser will open automatically and visit each song)
-6. Check the `logs/` folder for your files when done
+*Note: If you're in VS Code, you can also run these from the terminal, but double-clicking the files is easier.*
 
-## Files Created
+## Where to Find Your Files
 
-All files save to `logs/` folder:
-- `logs/master_playcounts.xlsx` - Main tracking file with date columns
-- `logs/PLAYLIST_NAME_2025-07-06.xlsx` - Snapshot named after playlist
-- `logs/wbru_playcounts_2025-07-06.log` - Operation logs
+**All files are saved in the `logs/` folder** (it creates automatically)
 
-## How Master File Works
+**Master file (everything combined):**
+- `logs/master_playcounts.xlsx` - All your playlists with date columns
 
-First run creates:
-```
-Song         | Artist | URL    | Playcounts 06.07.2025
-SOMEBODY...  | PARTY  | link1  | 76.45
-```
+**Individual playlist files:**
+- `logs/weekly_july_2025_tracking.xlsx` - Just this playlist's history
+- `logs/gold_library_tracking.xlsx` - Just this playlist's history
 
-Next week adds new column:
-```
-Song         | Artist | URL    | Playcounts 06.07.2025 | Playcounts 13.07.2025 | Growth 13.07.2025
-SOMEBODY...  | PARTY  | link1  | 76.45                  | 78.20                  | 1.75
-```
+**Quick URL files:**
+- `logs/playlist_name_urls_2025-07-09.xlsx` - Just the Spotify URLs
 
-## Functions
+Each time you run the tracker, it adds a new date column to your files. Open the `logs/` folder to see all your Excel files!
 
-- `process_playlist_to_chart_with_tracking(url)` - Process playlist, add to master tracking
-- `process_playlist_to_links_with_logging(url, filename)` - Extract just links, no playcounts
-- `update_existing_tracks(url_list)` - Update specific tracks in master file
-
-That's it! Simple playlist tracking with dated columns.
+That's it!

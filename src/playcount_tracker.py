@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from datetime import datetime
-from logging_utils import setup_logger, get_playcount_column_name
+from .logging_utils import setup_logger, get_playcount_column_name
 
 def ensure_logs_folder():
     """Ensure logs folder exists"""
