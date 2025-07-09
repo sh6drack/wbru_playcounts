@@ -5,7 +5,7 @@ import os
 import json
 import pandas as pd
 from datetime import datetime
-from .logging_utils import setup_logger
+from logging_utils import setup_logger
 
 class PlaylistManager:
     def __init__(self):

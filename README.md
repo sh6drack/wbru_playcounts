@@ -8,6 +8,14 @@ Track Spotify playlist playcounts over time.
 2. **Install packages:** Double-click `install_packages.command` (Mac) or `install_packages.bat` (Windows)
 3. **Ready to use:** `data.xlsx` is included - just paste your URLs in column A when needed
 
+## **Key Points**
+
+> **USE THE SAME NAME EACH WEEK** - For weekly playlists, enter the exact same name (e.g., "Weekly July 2025") every time. This creates a compounding chart that tracks the same playlist over time.
+
+> **MASTER FILE COMBINES EVERYTHING** - All playlists merge into `logs/master_playcounts.xlsx` for one big chart with all your tracks.
+
+> **EXPECT 5-10 MINUTES** - Tracking playlists takes time because it scrapes playcount data from each song.
+
 ## How to Use
 
 **For tracking playlists (Weekly, Gold Library, etc.):**
@@ -33,7 +41,9 @@ Track Spotify playlist playcounts over time.
 
 **Weekly playlist tracking:**
 1. Use `track_playlist` with your weekly playlist URL
-2. Gets playcounts and adds new date column each week
+2. **IMPORTANT: Use the exact same name each week** (e.g., "Weekly July 2025")
+3. Gets playcounts and adds new date column each week to the same file
+4. Creates compounding chart showing playlist growth over time
 
 **Gold library updates:**
 1. Use `get_urls` to extract URLs from your gold library playlist
@@ -51,7 +61,7 @@ Track Spotify playlist playcounts over time.
 **All files are saved in the `logs/` folder** (it creates automatically)
 
 **Master file (everything combined):**
-- `logs/master_playcounts.xlsx` - All your playlists with date columns
+- `logs/master_playcounts.xlsx` - **ALL your playlists merged into one big chart**
 
 **Individual playlist files:**
 - `logs/weekly_july_2025_tracking.xlsx` - Just this playlist's history

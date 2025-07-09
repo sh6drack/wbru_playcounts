@@ -4,10 +4,10 @@ Multi-playlist processor that handles individual playlist tracking
 import pandas as pd
 import os
 from datetime import datetime
-from .spotify_utils import get_playlist_info_with_tracks
-from .playcount_scraper import get_playcounts
-from .playlist_manager import PlaylistManager
-from .logging_utils import setup_logger, get_playcount_column_name
+from spotify_utils import get_playlist_info_with_tracks
+from playcount_scraper import get_playcounts
+from playlist_manager import PlaylistManager
+from logging_utils import setup_logger, get_playcount_column_name
 
 class MultiPlaylistProcessor:
     def __init__(self):

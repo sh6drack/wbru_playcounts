@@ -2,10 +2,10 @@
 Enhanced playlist processor with logging and playcount tracking
 """
 import pandas as pd
-from .spotify_utils import get_playlist_tracks, get_playlist_info_with_tracks
-from .playcount_scraper import get_playcounts
-from .playcount_tracker import PlaycountTracker
-from .logging_utils import setup_logger
+from spotify_utils import get_playlist_tracks, get_playlist_info_with_tracks
+from playcount_scraper import get_playcounts
+from playcount_tracker import PlaycountTracker
+from logging_utils import setup_logger
 
 def process_playlist_to_chart_with_tracking(playlist_url):
     """Process playlist and add to master tracking file"""
