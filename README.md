@@ -15,7 +15,7 @@ Track Spotify playlist playcounts over time.
 - **Windows:** Double-click `track_playlist.bat`
 - Enter playlist name like "Weekly July 2025"
 - Paste Spotify playlist URL
-- Wait 5-10 minutes for Chrome to finish
+- Wait for code to finish(extracting from a playlist link takes longer than from urls)
 
 **For quick URL extraction:**
 - **Mac:** Double-click `get_urls.command`
@@ -27,7 +27,7 @@ Track Spotify playlist playcounts over time.
 - Open `data.xlsx` and paste your Spotify URLs in column A
 - **Mac:** Double-click `update_from_excel.command`
 - **Windows:** Double-click `update_from_excel.bat`
-- Wait 5-10 minutes for Chrome to finish
+- Wait for code to finish
 
 ## Common Workflows
 
@@ -35,7 +35,7 @@ Track Spotify playlist playcounts over time.
 1. Use `track_playlist` with your weekly playlist URL
 2. Gets playcounts and adds new date column each week
 
-**Gold library quarterly updates:**
+**Gold library updates:**
 1. Use `get_urls` to extract URLs from your gold library playlist
 2. Copy URLs from the output file to `data.xlsx` (column A)
 3. Use `update_from_excel` to get playcounts for all songs
