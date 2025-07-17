@@ -29,32 +29,36 @@ def get_playcounts(urls):
             
             if track_id:
                 try:
-                    # Get track info from API
+                    # Get track info from API first
                     track_info = sp.track(track_id)
                     song_title = track_info['name'] if track_info else 'Unknown'
                     artist_name = track_info['artists'][0]['name'] if track_info and track_info.get('artists') else 'Unknown'
                     
-                    # Get playcount from scraping
-                    driver.get(url)
-                    playcount_element = driver.find_element(By.CSS_SELECTOR, "span[data-testid='playcount']")
-                    count = int(playcount_element.text.replace(",", ""))
-                    count_in_millions = count / 1_000_000
+                    # Try to get playcount from scraping
+                    count_in_millions = 0
+                    try:
+                        driver.get(url)
+                        playcount_element = driver.find_element(By.CSS_SELECTOR, "span[data-testid='playcount']")
+                        count = int(playcount_element.text.replace(",", ""))
+                        count_in_millions = count / 1_000_000
+                        logger.info(f"Successfully processed: {song_title} by {artist_name} - {count_in_millions:.2f}M plays")
+                    except Exception as scrape_error:
+                        logger.warning(f"No playcount data found for '{song_title}' by {artist_name} - using 0 (likely WBRU production track)")
                     
                     results.append({
                         'Song': song_title,
                         'Artist': artist_name,
                         'URL': url,
-                        'Playcounts (millions)': count_in_millions
+                        playcount_column: count_in_millions
                     })
-                    logger.info(f"Successfully processed: {song_title} by {artist_name} - {count_in_millions:.2f}M plays")
                     
                 except Exception as e:
-                    logger.error(f"Error processing {url}: {e}")
+                    logger.error(f"Error getting track info for {url}: {e}")
                     results.append({
                         'Song': 'Error',
                         'Artist': 'Error',
                         'URL': url,
-                        'Playcounts (millions)': 0
+                        playcount_column: 0
                     })
             else:
                 logger.warning(f"Could not extract track ID from: {url}")

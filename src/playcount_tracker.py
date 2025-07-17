@@ -28,7 +28,7 @@ class PlaycountTracker:
     def add_or_update_playcounts(self, new_data):
         """
         Add new playcount data to the master file
-        new_data should be a DataFrame with columns: Song, Artist, URL, Playcounts (millions)
+        new_data should be a DataFrame with columns: Song, Artist, URL, and a date column like 'Playcounts 16.07.2025'
         """
         master_df = self.load_or_create_master_file()
         current_date_column = get_playcount_column_name()
@@ -38,7 +38,7 @@ class PlaycountTracker:
         # If master file is empty, initialize with new data
         if master_df.empty:
             master_df = new_data[['Song', 'Artist', 'URL']].copy()
-            master_df[current_date_column] = new_data['Playcounts (millions)']
+            master_df[current_date_column] = new_data[current_date_column]
         else:
             # Merge new data with existing data
             # First, ensure new tracks are added
@@ -48,7 +48,7 @@ class PlaycountTracker:
                 
                 if existing_mask.any():
                     # Update existing track
-                    master_df.loc[existing_mask, current_date_column] = new_row['Playcounts (millions)']
+                    master_df.loc[existing_mask, current_date_column] = new_row[current_date_column]
                     self.logger.info(f"Updated playcount for existing track: {new_row['Song']}")
                 else:
                     # Add new track
@@ -56,7 +56,7 @@ class PlaycountTracker:
                         'Song': new_row['Song'],
                         'Artist': new_row['Artist'],
                         'URL': new_row['URL'],
-                        current_date_column: new_row['Playcounts (millions)']
+                        current_date_column: new_row[current_date_column]
                     }
                     master_df = pd.concat([master_df, pd.DataFrame([new_track])], ignore_index=True)
                     self.logger.info(f"Added new track: {new_row['Song']}")
@@ -81,8 +81,9 @@ class PlaycountTracker:
         """Calculate playcount growth between dates"""
         master_df = self.load_or_create_master_file()
         
-        # Get all playcount columns (those starting with "Playcounts")
-        playcount_cols = [col for col in master_df.columns if col.startswith('Playcounts')]
+        # Get all playcount columns with dates (those starting with "Playcounts" and containing a date)
+        playcount_cols = [col for col in master_df.columns 
+                         if col.startswith('Playcounts') and ' ' in col and 'millions' not in col.lower()]
         
         if len(playcount_cols) < 2:
             self.logger.info("Need at least 2 playcount measurements to calculate growth")

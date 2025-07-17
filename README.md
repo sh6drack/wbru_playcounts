@@ -56,6 +56,21 @@ Track Spotify playlist playcounts over time.
 
 *Note: If you're in VS Code, you can also run these from the terminal, but double-clicking the files is easier.*
 
+## Troubleshooting
+
+**Mac Security Issues:**
+If you get "App cannot be opened because it is from an unidentified developer" or similar security warnings:
+
+1. **Right-click** the `.command` file (instead of double-clicking)
+2. Choose **"Open"** from the context menu
+3. Click **"Open"** again when macOS asks for confirmation
+4. Or go to **System Preferences** > **Security & Privacy** > **General** and click **"Open Anyway"**
+
+This only needs to be done once per script file. macOS will remember your choice.
+
+**WBRU Production Tracks:**
+WBRU's own production tracks (uploaded through Spotify's submission process) may show 0 plays instead of actual playcount data. This is expected behavior - these tracks don't display public playcount information on Spotify.
+
 ## Where to Find Your Files
 
 **All files are saved in the `logs/` folder** (it creates automatically)
