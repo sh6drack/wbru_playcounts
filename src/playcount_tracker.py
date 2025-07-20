@@ -40,24 +40,33 @@ class PlaycountTracker:
             master_df = new_data[['Song', 'Artist', 'URL']].copy()
             master_df[current_date_column] = new_data[current_date_column]
         else:
-            # Merge new data with existing data
-            # First, ensure new tracks are added
+            # Ensure current date column exists
+            if current_date_column not in master_df.columns:
+                master_df[current_date_column] = pd.NA
+            
+            # Merge new data with existing data, preserving all historical data
             for _, new_row in new_data.iterrows():
                 # Check if track already exists (by URL)
                 existing_mask = master_df['URL'] == new_row['URL']
                 
                 if existing_mask.any():
-                    # Update existing track
+                    # Update existing track for current date only - preserve all other data
                     master_df.loc[existing_mask, current_date_column] = new_row[current_date_column]
                     self.logger.info(f"Updated playcount for existing track: {new_row['Song']}")
                 else:
-                    # Add new track
+                    # Add completely new track
                     new_track = {
                         'Song': new_row['Song'],
                         'Artist': new_row['Artist'],
                         'URL': new_row['URL'],
                         current_date_column: new_row[current_date_column]
                     }
+                    
+                    # Fill other existing columns with NA for this new track
+                    for col in master_df.columns:
+                        if col not in new_track:
+                            new_track[col] = pd.NA
+                    
                     master_df = pd.concat([master_df, pd.DataFrame([new_track])], ignore_index=True)
                     self.logger.info(f"Added new track: {new_row['Song']}")
         

@@ -42,24 +42,32 @@ class MultiPlaylistProcessor:
             if os.path.exists(playlist_file):
                 existing_df = pd.read_excel(playlist_file)
                 
-                # Add new date column only if it doesn't exist
+                # Add new date column only if it doesn't exist, but don't overwrite existing data
                 if current_date_column not in existing_df.columns:
                     existing_df[current_date_column] = pd.NA
                 
-                # Update playcounts
+                # Update playcounts for tracks in current playlist
                 for _, new_row in chart_data.iterrows():
                     mask = existing_df['URL'] == new_row['URL']
                     if mask.any():
+                        # Update existing track with new playcount data
                         existing_df.loc[mask, current_date_column] = new_row[current_date_column]
                     else:
-                        # Add new track
+                        # Add completely new track with all its data
                         new_track = {
                             'Song': new_row['Song'],
                             'Artist': new_row['Artist'],
                             'URL': new_row['URL'],
                             current_date_column: new_row[current_date_column]
                         }
+                        # Fill other columns with NA for this new track
+                        for col in existing_df.columns:
+                            if col not in new_track:
+                                new_track[col] = pd.NA
+                                
                         existing_df = pd.concat([existing_df, pd.DataFrame([new_track])], ignore_index=True)
+                
+                # Existing tracks not in current playlist keep their old data (no change needed)
                 
                 playlist_df = existing_df
             else:

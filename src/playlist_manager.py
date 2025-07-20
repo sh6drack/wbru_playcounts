@@ -93,31 +93,52 @@ class PlaylistManager:
         return playlist["file"] if playlist else None
     
     def merge_to_master(self, playlist_data, playlist_name):
-        """Merge playlist data into master file"""
+        """Merge playlist data into master file preserving all historical data"""
         try:
+            from logging_utils import get_playcount_column_name
+            current_date_column = get_playcount_column_name()
+            
             # Load existing master file or create new one
             if os.path.exists(self.master_file):
                 master_df = pd.read_excel(self.master_file)
             else:
-                master_df = pd.DataFrame()
+                master_df = pd.DataFrame(columns=['Song', 'Artist', 'URL'])
             
-            # Add playlist source column
-            playlist_data = playlist_data.copy()
-            playlist_data['Source_Playlist'] = playlist_name
+            # Process each track from playlist_data
+            for _, new_row in playlist_data.iterrows():
+                existing_mask = master_df['URL'] == new_row['URL']
+                
+                if existing_mask.any():
+                    # Update existing track - preserve ALL existing data, only update current date column
+                    master_df.loc[existing_mask, current_date_column] = new_row[current_date_column]
+                    # Update Source_Playlist to latest (this is okay to overwrite)
+                    master_df.loc[existing_mask, 'Source_Playlist'] = playlist_name
+                else:
+                    # Add completely new track
+                    new_track = {
+                        'Song': new_row['Song'],
+                        'Artist': new_row['Artist'], 
+                        'URL': new_row['URL'],
+                        'Source_Playlist': playlist_name,
+                        current_date_column: new_row[current_date_column]
+                    }
+                    
+                    # Fill any other existing columns with NA for this new track
+                    for col in master_df.columns:
+                        if col not in new_track:
+                            new_track[col] = pd.NA
+                    
+                    master_df = pd.concat([master_df, pd.DataFrame([new_track])], ignore_index=True)
             
-            # Merge with master
-            if master_df.empty:
-                merged_df = playlist_data
-            else:
-                # Merge on URL to avoid duplicates
-                merged_df = pd.concat([master_df, playlist_data], ignore_index=True)
-                merged_df = merged_df.drop_duplicates(subset=['URL'], keep='last')
+            # Ensure current date column exists for all tracks (in case some tracks weren't in this playlist)
+            if current_date_column not in master_df.columns:
+                master_df[current_date_column] = pd.NA
             
             # Save master file
-            merged_df.to_excel(self.master_file, index=False)
-            self.logger.info(f"Merged {len(playlist_data)} tracks to master file")
+            master_df.to_excel(self.master_file, index=False)
+            self.logger.info(f"Merged {len(playlist_data)} tracks to master file, total tracks: {len(master_df)}")
             
-            return merged_df
+            return master_df
             
         except Exception as e:
             self.logger.error(f"Error merging to master: {e}")
