@@ -1,0 +1,21 @@
+.DS_Store
+__pycache__/
+~$*
+
+.claude/
+
+.venv/
+
+.envrc
+
+.cache/
+
+logs/
+legacy/
+
+# Track the template file
+!data.xlsx
+
+# Don't commit actual credentials
+config.json
+

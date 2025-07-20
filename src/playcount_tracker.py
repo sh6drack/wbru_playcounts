@@ -116,3 +116,14 @@ class PlaycountTracker:
         self.logger.info(f"Exported snapshot to {filename}")
         
         return filename
+    
+    def export_current_snapshot(self):
+        """Export current snapshot with timestamp"""
+        date_str = datetime.now().strftime("%Y-%m-%d_%H-%M")
+        filename = f"logs/snapshot_{date_str}.xlsx"
+        
+        master_df = self.load_or_create_master_file()
+        master_df.to_excel(filename, index=False)
+        self.logger.info(f"Exported current snapshot to {filename}")
+        
+        return filename

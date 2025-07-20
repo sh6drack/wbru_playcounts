@@ -49,14 +49,14 @@ class MultiPlaylistProcessor:
                 for _, new_row in chart_data.iterrows():
                     mask = existing_df['URL'] == new_row['URL']
                     if mask.any():
-                        existing_df.loc[mask, current_date_column] = new_row['Playcounts (millions)']
+                        existing_df.loc[mask, current_date_column] = new_row[current_date_column]
                     else:
                         # Add new track
                         new_track = {
                             'Song': new_row['Song'],
                             'Artist': new_row['Artist'],
                             'URL': new_row['URL'],
-                            current_date_column: new_row['Playcounts (millions)']
+                            current_date_column: new_row[current_date_column]
                         }
                         existing_df = pd.concat([existing_df, pd.DataFrame([new_track])], ignore_index=True)
                 
@@ -64,7 +64,7 @@ class MultiPlaylistProcessor:
             else:
                 # Create new playlist file
                 playlist_df = chart_data[['Song', 'Artist', 'URL']].copy()
-                playlist_df[current_date_column] = chart_data['Playcounts (millions)']
+                playlist_df[current_date_column] = chart_data[current_date_column]
             
             # Save playlist file
             playlist_df.to_excel(playlist_file, index=False)

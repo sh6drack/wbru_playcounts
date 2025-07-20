@@ -2,6 +2,31 @@
 
 Track Spotify playlist playcounts over time.
 
+## Spotify API Setup (Required First Step)
+
+Before using this tool, you need to add your Spotify API credentials:
+
+1. **Create a Spotify App:**
+   - Go to [Spotify for Developers](https://developer.spotify.com/dashboard)
+   - Log in with your Spotify account
+   - Click "Create App"
+   - Fill in any name/description you want
+   - For "Redirect URI" put: `http://localhost:8888/callback` or `https://example.com/callback` (required but not used)
+   - Check "Web API" under APIs used
+   - Accept the terms and create the app
+
+2. **Get Your Credentials:**
+   - Click on your new app
+   - Copy the "Client ID"
+   - Click "Show client secret" and copy the "Client Secret"
+
+3. **Add Credentials to config.json:**
+   - Copy `config.json.template` to `config.json`
+   - Open the `config.json` file in any text editor
+   - Replace `YOUR_SPOTIFY_CLIENT_ID_HERE` with your Client ID
+   - Replace `YOUR_SPOTIFY_CLIENT_SECRET_HERE` with your Client Secret
+   - Save the file
+
 ## Setup (One Time Only)
 
 1. **Download this code:** Click green "Code" button → "Download ZIP" → Extract folder

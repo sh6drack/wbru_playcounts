@@ -2,13 +2,36 @@ import pandas as pd
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import re
+import json
+import os
 
-# Spotify API configuration
-SPOTIFY_CLIENT_ID = "7914f288d3fa40e08faa11a2af59c3b6"
-SPOTIFY_CLIENT_SECRET = "b514416785af45dabb0f6bfaccdfd2cd"
+def load_spotify_config():
+    """Load Spotify credentials from config.json"""
+    config_path = "config.json"
+    if not os.path.exists(config_path):
+        config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.json")
+    
+    try:
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+        return config.get('spotify_client_id'), config.get('spotify_client_secret')
+    except Exception as e:
+        raise FileNotFoundError(
+            f"Could not load config.json. Please make sure config.json exists in the main folder "
+            f"with your Spotify credentials. See README.md for setup instructions."
+        )
+
+# Load Spotify credentials
+SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET = load_spotify_config()
 
 def get_spotify_client():
     """Create and return a Spotify client"""
+    if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET or SPOTIFY_CLIENT_ID == "YOUR_SPOTIFY_CLIENT_ID_HERE":
+        raise ValueError(
+            "Spotify credentials not configured. Please edit config.json with your Spotify API credentials. "
+            "See README.md for setup instructions."
+        )
+    
     client_credentials_manager = SpotifyClientCredentials(
         client_id=SPOTIFY_CLIENT_ID,
         client_secret=SPOTIFY_CLIENT_SECRET
