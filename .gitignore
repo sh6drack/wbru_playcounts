@@ -12,6 +12,7 @@ logs/
 # System files
 .DS_Store
 .envrc
+.cache
 
 # IDE
 .vscode/
