@@ -20,8 +20,8 @@ Before using this tool, you need to add your Spotify API credentials:
    - Copy the "Client ID"
    - Click "Show client secret" and copy the "Client Secret"
 
-3. **Add Credentials to templateconfig.json:**
-   - Open the `templateconfig.json` file in any text editor
+3. **Add Credentials to config.json:**
+   - Open the `config.json` file in any text editor
    - Replace `YOUR_SPOTIFY_CLIENT_ID_HERE` with your Client ID
    - Replace `YOUR_SPOTIFY_CLIENT_SECRET_HERE` with your Client Secret
    - Save the file

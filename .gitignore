@@ -3,15 +3,11 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
 
-# User data and logs
+# User data and logs  
 logs/
 *.xlsx
 *.log
-
-# Credentials - ignore the template once users edit it
-templateconfig.json
 
 # System files
 .DS_Store
@@ -25,3 +21,6 @@ templateconfig.json
 .venv/
 venv/
 env/
+
+# Personal config with real credentials (keep template in repo)
+config_personal.json

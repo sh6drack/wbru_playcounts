@@ -6,10 +6,10 @@ import json
 import os
 
 def load_spotify_config():
-    """Load Spotify credentials from templateconfig.json"""
-    config_path = "templateconfig.json"
+    """Load Spotify credentials from config.json"""
+    config_path = "config.json"
     if not os.path.exists(config_path):
-        config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templateconfig.json")
+        config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.json")
     
     try:
         with open(config_path, 'r') as f:
@@ -17,7 +17,7 @@ def load_spotify_config():
         return config.get('spotify_client_id'), config.get('spotify_client_secret')
     except Exception as e:
         raise FileNotFoundError(
-            f"Could not load templateconfig.json. Please make sure templateconfig.json exists in the main folder "
+            f"Could not load config.json. Please make sure config.json exists in the main folder "
             f"with your Spotify credentials. See README.md for setup instructions."
         )
 
@@ -28,7 +28,7 @@ def get_spotify_client():
     """Create and return a Spotify client"""
     if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET or SPOTIFY_CLIENT_ID == "YOUR_SPOTIFY_CLIENT_ID_HERE":
         raise ValueError(
-            "Spotify credentials not configured. Please edit templateconfig.json with your Spotify API credentials. "
+            "Spotify credentials not configured. Please edit config.json with your Spotify API credentials. "
             "See README.md for setup instructions."
         )
     
