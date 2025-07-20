@@ -42,8 +42,9 @@ class MultiPlaylistProcessor:
             if os.path.exists(playlist_file):
                 existing_df = pd.read_excel(playlist_file)
                 
-                # Add new date column
-                existing_df[current_date_column] = pd.NA
+                # Add new date column only if it doesn't exist
+                if current_date_column not in existing_df.columns:
+                    existing_df[current_date_column] = pd.NA
                 
                 # Update playcounts
                 for _, new_row in chart_data.iterrows():
